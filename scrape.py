@@ -83,7 +83,7 @@ class Scrapper():
 
             for i in range(0, len(acs_kills_rows), 2):
                 ## Sets Team 1 player stats
-                if(team_1_player_index < 5):
+                if(team_1_player_index <= 5):
                     player_stats['acs'] = acs_kills_rows[0].text.strip()
                     player_stats['kills'] = acs_kills_rows[1].text.strip()
                     player_stats['deaths'] = deaths_assists_rows[0].text.strip()
@@ -100,5 +100,8 @@ class Scrapper():
                     team_2_player_index += 1
                 
         return info
+
+matches = Scrapper()
+print(matches.gameStats(130684, "loud-vs-optic-gaming-valorant-champions-2022-ubf"))
 
 
