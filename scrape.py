@@ -9,12 +9,6 @@ class Scrapper():
             "User_Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
         }
 
-    def get_soup(self, URL):
-        response = requests.get(URL, headers=self.headers)
-
-        html, status_code = response.text, response.status_code
-        return BeautifulSoup(html, "lxml"), status_code
-
     def gameStats(self, number: int, match: str):
         url = f'https://www.vlr.gg/{number}/{match}/?game=all&tab=overview'
         html = requests.get(url)
