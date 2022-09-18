@@ -1,6 +1,7 @@
 # VCT-Statistics-API
 ## Decription
 An API which scrapes data from the [vlr.gg](https://www.vlr.gg) website to gather detailed statistics from matches.
+To be used in ongoing project.
 
 ---
 
