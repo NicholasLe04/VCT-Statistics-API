@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 class Scrapper():
     
+    ## 'Scrapper' object constructor
     def __init__(self):
         self.headers = {
             "User_Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/14.0.3 Safari/7046A194A"
@@ -27,6 +28,10 @@ class Scrapper():
 
         info['team-1'] = teams[0].text.strip()
         info['team-2'] = teams[1].text.strip()
+
+        ## Gets the score
+        info['team-1-score'] = soup.find('span', {'class': 'match-header-vs-score-winner'}).text.strip()
+        info['team-2-score'] = soup.find('span', {'class': 'match-header-vs-score-loser'}).text.strip()
 
         ## Gets list of players from Team 1
 
@@ -64,53 +69,40 @@ class Scrapper():
         team_1_player_index = 1
         team_2_player_index = 1
 
-        container = soup.find("div", attrs={'class': 'vm-stats-container'})
-        tables = container.find_all("div", {'class': 'vm-stats-game'})      ## Access all stat tables
-        all_map_stat_table = tables[1]                                      ## Access stat table for all maps
-        all_map_stats_rows = all_map_stat_table.find_all('tr') 
-        #all_map_stats = all_map_stats_row.find('td'), {'class': 'mod-stat'} 
-        # all_map_acs = all_map_stats[0].find_all('span', {"class": "side mod-side mod-both"})                                   
+        container = soup.find("div", attrs={'class': 'vm-stats-container'})  ## Access stat container
+        tables = container.find_all("div", {'class': 'vm-stats-game'})       ## Access all stat tables
+        all_map_stat_table = tables[1]                                       ## Access stat table for all maps
+        all_map_stats_rows = all_map_stat_table.find_all('tr')               ## Access rows in stat table                 
 
         for tr in all_map_stats_rows:
 
-            acs_kills_rows = tr.find_all('span', {"class": "side mod-side mod-both"})
+            acs_kills_rows = tr.find_all('span', {"class": "side mod-side mod-both"})   ## Finds 'acs' and 'kills' stats 
+            deaths_assists_rows = tr.find_all('span', {"class": "side mod-both"})       ## Finds 'deaths' and 'assists' stats
 
             player_stats = {}
 
             for i in range(0, len(acs_kills_rows), 2):
+                ## Sets Team 1 player stats
                 if(team_1_player_index < 5):
                     player_stats['acs'] = acs_kills_rows[0].text.strip()
                     player_stats['kills'] = acs_kills_rows[1].text.strip()
+                    player_stats['deaths'] = deaths_assists_rows[0].text.strip()
+                    player_stats['assists'] = deaths_assists_rows[1].text.strip()
                     info['team-1-player-'+str(team_1_player_index)+'-stats'] = player_stats
                     team_1_player_index += 1
+                ## Sets Team 2 player stats
                 else:
                     player_stats['acs'] = acs_kills_rows[0].text.strip()
                     player_stats['kills'] = acs_kills_rows[1].text.strip()
+                    player_stats['deaths'] = deaths_assists_rows[0].text.strip()
+                    player_stats['assists'] = deaths_assists_rows[1].text.strip()
                     info['team-2-player-'+str(team_2_player_index)+'-stats'] = player_stats
                     team_2_player_index += 1
                 
-            
-
-                
-                # if(team_1_player_index <= 5):
-                #     info['team-1-player-'+str(team_1_player_index)+'-acs'] = acs_kills_rows[0].text.strip()
-                #     info['team-1-player-'+str(team_1_player_index)+'-kills'] = acs_kills_rows[1].text.strip()
-                #     team_1_player_index += 1
-                # else:
-                #     info['team-2-player-'+str(team_2_player_index)+'-acs'] = acs_kills_rows[0].text.strip()
-                #     info['team-2-player-'+str(team_2_player_index)+'-kills'] = acs_kills_rows[1].text.strip()
-                #     team_2_player_index += 1
-
-
-
-        
-        print(info)
+        return info
 
 
 
 
 
-matches = Scrapper()
-
-matches.gameStats('130691', 'optic-gaming-vs-drx-valorant-champions-2022-lbf')
 
