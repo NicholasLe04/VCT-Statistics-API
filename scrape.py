@@ -101,7 +101,7 @@ class Scrapper():
                 
         return info
 
-matches = Scrapper()
-print(matches.gameStats(130684, "loud-vs-optic-gaming-valorant-champions-2022-ubf"))
+#matches = Scrapper()
+#print(matches.gameStats())
 
 
