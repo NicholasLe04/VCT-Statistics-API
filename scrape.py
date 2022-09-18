@@ -6,7 +6,7 @@ class Scrapper():
     ## 'Scrapper' object constructor
     def __init__(self):
         self.headers = {
-            "User_Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/14.0.3 Safari/7046A194A"
+            "User_Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
         }
 
     def get_soup(self, URL):
@@ -100,9 +100,5 @@ class Scrapper():
                     team_2_player_index += 1
                 
         return info
-
-
-
-
 
 
