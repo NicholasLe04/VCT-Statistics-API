@@ -5,6 +5,6 @@ app = FastAPI()
 matches = Scrapper()
 
 
-@app.get("/{number}/{match}")
-async def read_item(number, match):
-    return matches.gameStats(number, match)
+@app.get("/{match_id}")
+async def read_item(match_id):
+    return matches.getMatchStats(match_id)
